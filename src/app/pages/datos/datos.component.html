@@ -1,0 +1,92 @@
+<h1>Formulario de Actividades</h1>
+
+<div class="m-2">
+    <form [formGroup]="forma" (ngSubmit)="guardar()">
+        <div formGroupName="nombreCompleto">
+            <div class="form-group">
+                <label for="nombre">Nombre</label>
+                <input type="text" class="form-control" formControlName="nombre" [ngClass]="{'is-invalid': forma.get('nombreCompleto.nombre').invalid && forma.get('nombreCompleto.nombre').touched}" />
+                <div *ngIf="forma.get('nombreCompleto.nombre').errors?.required" class="invalid-feedback">
+                    nombre necesario
+                </div>
+                <div *ngIf="forma.get('nombreCompleto.nombre').errors?.minlength" class="invalid-feedback">
+                    Por lo menos debe tener 4 caracteres
+                </div>
+                <div *ngIf="forma.get('nombreCompleto.nombre').errors?.noRicardo" class="invalid-feedback">
+                    No te puedes llamar Ricardo
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="nombre">Apellido</label>
+                <input type="text" class="form-control" formControlName="apellido" [ngClass]="{'is-invalid': forma.get('nombreCompleto.apellido').invalid && forma.get('nombreCompleto.apellido').touched}" />
+                <div *ngIf="forma.get('nombreCompleto.apellido').errors?.required" class="invalid-feedback">
+                    nombre necesario
+                </div>
+                <div *ngIf="forma.get('nombreCompleto.apellido').errors?.minlength" class="invalid-feedback">
+                    Por lo menos debe tener 8 caracteres
+                </div>
+                <div *ngIf="forma.get('nombreCompleto.apellido').errors?.noSandoval" class="invalid-feedback">
+                    No te puedes Apellidar Sandoval
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="cargo">Cargo</label>
+            <input type="text" class="form-control" formControlName="cargo" [ngClass]="{'is-invalid': forma.get('cargo').invalid && forma.get('cargo').touched}" />
+            <div *ngIf="forma.get('cargo').errors?.required" class="invalid-feedback">
+                Cargo necesario
+            </div>
+            <div *ngIf="forma.get('cargo').errors?.noAdministrador" class="invalid-feedback">
+                No puedes ser Administrador
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="usuario">usuario</label>
+            <input id="usuario" type="text" class="form-control" formControlName="usuario" />
+        </div>
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" class="form-control" formControlName="pass" />
+        </div>
+        <div class="form-group">
+            <label>Confirme su password</label>
+            <input type="password" class="form-control" formControlName="pass2" />
+        </div>
+        <div class="form-group">
+            <label for="nombre">Correo</label>
+            <input type="text" class="form-control" formControlName="correo" />
+        </div>
+        <div class="form-group">
+            <label for="exampleFormControlSelect2">Cliente</label>
+            <select class="form-control" formControlName="cliente">
+              <option *ngFor="let cliente of clientes">
+                  {{cliente}}
+              </option>
+            </select>
+        </div>
+        <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input" formControlName="vacaciones">
+            <label class="form-check-label" for="exampleCheck1">Esta de vacaciones?</label>
+        </div>
+        <div formArrayName="intereses">
+            <div class="form-group">
+                <button type="button" class="btn btn-info" (click)="agregarIntereses()">Agregar</button>
+                <br><label>intereses</label>
+                <input *ngFor="let interes of forma.get('intereses')['controls']; let i = index" type="text" class="form-control" [formControlName]="i" />
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Enviar</button>
+    </form>
+</div>
+<div class="p-2">
+    status del usuario: {{ forma.controls.usuario.status }}
+</div>
+<div class="p-2">
+    {{ forma.value | json }}
+</div>
+<div class="p-2">
+    status del formulario: {{ forma.status }}
+</div>
+<div class="p-2">
+    status de nombre completo: {{ forma.controls.nombreCompleto.status }}
+</div>
